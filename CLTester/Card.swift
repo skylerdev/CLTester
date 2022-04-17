@@ -69,7 +69,7 @@ class CardDeck {
     func createDeck() {
         for suit in Suit.allCases {
             for value in Rank.allCases {
-                deck.append(Card(value: value, suit: suit))
+                deck.append(Card(value, suit))
             }
         }
     }
