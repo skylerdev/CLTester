@@ -18,7 +18,7 @@ enum Suit: String, CaseIterable {
 enum Rank: Int, CaseIterable {
     //ace is at the end cause its always high card
     //i.e. until ace needs to fill a 2 straight, its always the best
-    case two = 0, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
+    case two = 2, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace
 }
 
 struct Card: Comparable, Equatable, Hashable {
@@ -30,6 +30,11 @@ struct Card: Comparable, Equatable, Hashable {
     {
         self.rank = value
         self.suit = suit
+    }
+    
+    init(_ v: Int, _ s: String){
+        suit = Suit(rawValue: s)!
+        rank = Rank(rawValue: v)!
     }
     
     func printCard() {

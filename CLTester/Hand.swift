@@ -13,6 +13,7 @@ class Hand {
     init(_ cards: [Card]){
         self.cards = cards
     }
+
     
     func addcard (_ card: Card){
         cards.append(card)
@@ -22,8 +23,12 @@ class Hand {
         cards.sort()
     }
     
+    
+    
 }
 
 enum HandRank: Int, CaseIterable {
     case royal = 0, straightflush, quads, fullhouse, flush, straight, trips, twopair, pair, high
 }
+
+

@@ -10,6 +10,7 @@
 		5DA5E61A280B6BC0006D2AB3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA5E619280B6BC0006D2AB3 /* main.swift */; };
 		5DA5E621280B6BF2006D2AB3 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA5E620280B6BF2006D2AB3 /* Card.swift */; };
 		5DA5E623280B712E006D2AB3 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA5E622280B712E006D2AB3 /* Hand.swift */; };
+		5DB5D054280BCE8100F7F0F7 /* ExampleHands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB5D053280BCE8100F7F0F7 /* ExampleHands.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 		5DA5E619280B6BC0006D2AB3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5DA5E620280B6BF2006D2AB3 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		5DA5E622280B712E006D2AB3 /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
+		5DB5D053280BCE8100F7F0F7 /* ExampleHands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleHands.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				5DA5E619280B6BC0006D2AB3 /* main.swift */,
 				5DA5E620280B6BF2006D2AB3 /* Card.swift */,
 				5DA5E622280B712E006D2AB3 /* Hand.swift */,
+				5DB5D053280BCE8100F7F0F7 /* ExampleHands.swift */,
 			);
 			path = CLTester;
 			sourceTree = "<group>";
@@ -129,6 +132,7 @@
 				5DA5E61A280B6BC0006D2AB3 /* main.swift in Sources */,
 				5DA5E621280B6BF2006D2AB3 /* Card.swift in Sources */,
 				5DA5E623280B712E006D2AB3 /* Hand.swift in Sources */,
+				5DB5D054280BCE8100F7F0F7 /* ExampleHands.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

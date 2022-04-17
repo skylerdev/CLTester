@@ -8,19 +8,7 @@
 import Foundation
 
 var deck = CardDeck()
-var hand = Hand([deck.drawCard()!, deck.drawCard()!])
-
-for _ in 0...4 {
-    hand.addcard()
-}
-
-hand.sort()
-
-//for card in hand.cards {
-//    card.printCard();
-//}
-
-
+var hand = ExampleHands.flush
 
 
 let rankcount: Dictionary = hand.cards.reduce(into: [:]) { counts, Card in counts[Card.rank, default: 0] += 1 }
