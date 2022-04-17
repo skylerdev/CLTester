@@ -35,4 +35,13 @@ struct ExampleHands {
         Card(14, "C"),
         Card(6, "D"),
     ])
+    static let quads = Hand([
+       Card(9, "C"),
+       Card(10, "H"),
+       Card(10, "C"),
+       Card(10, "S"),
+       Card(10, "D"),
+       Card(14, "C"),
+       Card(14, "D"),
+   ])
 }

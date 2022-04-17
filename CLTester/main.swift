@@ -12,23 +12,52 @@ var deck = CardDeck()
 var testHand = ExampleHands.flush
 
 print("Testing Flush:")
-print(testHand.handRank)
+print(testHand.getBestHandType())
 //print(testHand.cards)
+print(" ")
+print("Best Hand:")
+var bh = testHand.getBestHand()
+for card in bh {
+    card.printCard()
+}
 print(" ")
 
 testHand = ExampleHands.straightflush
 
-print("Testing StrFlush:")
-print(testHand.handRank)
+print("Testing Quads:")
+print(testHand.getBestHandType())
 //print(testHand.cards)
+print(" ")
+print("Best Hand:")
+bh = testHand.getBestHand()
+for card in bh {
+    card.printCard()
+}
 print(" ")
 
 
 testHand = ExampleHands.royalflush
 
-print("Testing RoyFlush:")
-print(testHand.handRank)
+print("Testing Quads:")
+print(testHand.getBestHandType())
 //print(testHand.cards)
 print(" ")
+print("Best Hand:")
+bh = testHand.getBestHand()
+for card in bh {
+    card.printCard()
+}
+print(" ")
 
+testHand = ExampleHands.quads
 
+print("Testing Quads:")
+print(testHand.getBestHandType())
+//print(testHand.cards)
+print(" ")
+print("Best Hand:")
+bh = testHand.getBestHand()
+for card in bh {
+    card.printCard()
+}
+print(" ")
