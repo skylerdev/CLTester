@@ -26,7 +26,7 @@ struct Card: Comparable, Equatable, Hashable {
     var rank: Rank
     var suit: Suit
     
-    init(value: Rank, suit: Suit)
+    init(_ value: Rank, _ suit: Suit)
     {
         self.rank = value
         self.suit = suit
