@@ -7,16 +7,23 @@
 
 import Foundation
 
-struct Hand {
-    let cards: [Card]
+class Hand {
+    var cards: [Card]
     
-    init(cards: [Card]){
+    init(_ cards: [Card]){
         self.cards = cards
     }
     
+    func addcard (_ card: Card){
+        cards.append(card)
+    }
+    
+    func sort (){
+        cards.sort()
+    }
     
 }
 
 enum HandRank: Int, CaseIterable {
-    case high = 0, pair, twopair, three, straight, flush, fullhouse, four, straightflush
+    case royal = 0, straightflush, quads, fullhouse, flush, straight, trips, twopair, pair, high
 }
