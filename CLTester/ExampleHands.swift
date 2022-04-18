@@ -16,7 +16,7 @@ struct ExampleHands {
         Card(11, "C"),
         Card(13, "C"),
         Card(6, "D"),
-    ])
+    ], handName: "Flush")
      static let straightflush = Hand([
         Card(3, "C"),
         Card(4, "C"),
@@ -25,7 +25,7 @@ struct ExampleHands {
         Card(7, "C"),
         Card(8, "C"),
         Card(2, "C"),
-    ])
+    ], handName: "Straight Flush")
      static let royalflush = Hand([
         Card(9, "C"),
         Card(10, "C"),
@@ -34,7 +34,7 @@ struct ExampleHands {
         Card(13, "C"),
         Card(14, "C"),
         Card(6, "D"),
-    ])
+    ], handName: "Royal Flush")
     static let quads = Hand([
        Card(9, "C"),
        Card(10, "H"),
@@ -43,5 +43,5 @@ struct ExampleHands {
        Card(10, "D"),
        Card(14, "C"),
        Card(14, "D"),
-   ])
+   ], handName: "Quads")
 }

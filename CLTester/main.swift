@@ -9,55 +9,14 @@ import Foundation
 
 var deck = CardDeck()
 
-var testHand = ExampleHands.flush
+var testHands = [ExampleHands.royalflush, ExampleHands.straightflush, ExampleHands.flush, ExampleHands.quads]
 
-print("Testing Flush:")
-print(testHand.getBestHandType())
-//print(testHand.cards)
-print(" ")
-print("Best Hand:")
-var bh = testHand.getBestHand()
-for card in bh {
-    card.printCard()
+for hand in testHands {
+    print(hand.handName)
+    print("Best Hand: \(hand.getBestHandType())")
+    let bh = hand.getBestHand()
+    for card in bh {
+        card.printCard()
+    }
+    print(" ")
 }
-print(" ")
-
-testHand = ExampleHands.straightflush
-
-print("Testing Quads:")
-print(testHand.getBestHandType())
-//print(testHand.cards)
-print(" ")
-print("Best Hand:")
-bh = testHand.getBestHand()
-for card in bh {
-    card.printCard()
-}
-print(" ")
-
-
-testHand = ExampleHands.royalflush
-
-print("Testing Quads:")
-print(testHand.getBestHandType())
-//print(testHand.cards)
-print(" ")
-print("Best Hand:")
-bh = testHand.getBestHand()
-for card in bh {
-    card.printCard()
-}
-print(" ")
-
-testHand = ExampleHands.quads
-
-print("Testing Quads:")
-print(testHand.getBestHandType())
-//print(testHand.cards)
-print(" ")
-print("Best Hand:")
-bh = testHand.getBestHand()
-for card in bh {
-    card.printCard()
-}
-print(" ")

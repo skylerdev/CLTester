@@ -9,6 +9,7 @@ import Foundation
 
 class Hand {
     
+    let handName: String
     var besthand: [Card]
     var besthandtype: HandRank
     var cards: [Card]
@@ -19,6 +20,15 @@ class Hand {
         self.besthand = []
         self.besthandtype = .high
         self.lastUpdate = 0
+        handName = ""
+    }
+    
+    init(_ cards: [Card], handName: String){
+        self.cards = cards
+        self.besthand = []
+        self.besthandtype = .high
+        self.lastUpdate = 0
+        self.handName = handName
     }
     
     func addcard(_ card: Card){
@@ -49,7 +59,7 @@ class Hand {
     
     private func rankHand() {
         
-        var rankcount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.rank, default: 0] += 1 }
+        let rankcount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.rank, default: 0] += 1 }
         let suitcount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.suit, default: 0] += 1 }
 
 
@@ -74,8 +84,9 @@ class Hand {
             
             //Checks for Ace 2 3 4 5 scenario
             if [Card(.ace, flushsuit), Card(.two, flushsuit), Card(.three, flushsuit), Card(.four, flushsuit), Card(.five, flushsuit) ].allSatisfy(flushhand.contains) {
-                besthand = Array(flushhand[1...4])
-                besthand.append(contentsOf: Array(flushhand[0...4]))
+                besthand = Array(flushhand.reversed()[0...3])
+                besthand = besthand.reversed()
+                besthand.append(flushhand[0])
                 besthandtype = .straightflush
             }
             
@@ -107,19 +118,19 @@ class Hand {
                     card.rank.rawValue == rankcount.first?.key.rawValue
                 })
                 besthandtype = .quads
+                break
             case 3:
                 besthand = cards.filter({ card in
                     card.rank.rawValue == rankcount.first?.key.rawValue
                 })
             default:
-                print(" a")
+                print("oh god oh fuck")
             }
         }
 
         
         lastUpdate = cards.count
         self.besthand = besthand
-        print("ran")
     }
     
     
