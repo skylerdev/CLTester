@@ -44,4 +44,58 @@ struct ExampleHands {
        Card(14, "C"),
        Card(14, "D"),
    ], handName: "Quads")
+    static let trips = Hand([
+       Card(9, "C"),
+       Card(12, "H"),
+       Card(10, "C"),
+       Card(10, "S"),
+       Card(10, "D"),
+       Card(14, "C"),
+       Card(13, "D"),
+   ], handName: "Trips")
+    static let fullhouse = Hand([
+       Card(9, "C"),
+       Card(10, "H"),
+       Card(10, "C"),
+       Card(10, "S"),
+       Card(14, "D"),
+       Card(14, "C"),
+       Card(14, "D"),
+   ], handName: "Full House")
+    static let straight = Hand([
+       Card(9, "C"),
+       Card(11, "H"),
+       Card(10, "C"),
+       Card(12, "S"),
+       Card(13, "D"),
+       Card(8, "C"),
+       Card(7, "D"),
+   ], handName: "Straight")
+    static let twopair = Hand([
+       Card(9, "C"),
+       Card(12, "H"),
+       Card(12, "C"),
+       Card(10, "S"),
+       Card(10, "D"),
+       Card(14, "C"),
+       Card(14, "D"),
+   ], handName: "Two Pair")
+    static let pair = Hand([
+       Card(9, "C"),
+       Card(12, "H"),
+       Card(11, "C"),
+       Card(13, "S"),
+       Card(2, "D"),
+       Card(14, "C"),
+       Card(14, "D"),
+   ], handName: "pair")
+    static let highcard = Hand([
+       Card(9, "C"),
+       Card(8, "H"),
+       Card(12, "C"),
+       Card(13, "S"),
+       Card(11, "D"),
+       Card(2, "C"),
+       Card(3, "D"),
+   ], handName: "High Card")
 }

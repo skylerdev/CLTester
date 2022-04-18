@@ -9,7 +9,7 @@ import Foundation
 
 var deck = CardDeck()
 
-var testHands = [ExampleHands.royalflush, ExampleHands.straightflush, ExampleHands.flush, ExampleHands.quads]
+var testHands = [ExampleHands.royalflush, ExampleHands.straightflush, ExampleHands.flush, ExampleHands.quads, ExampleHands.trips, ExampleHands.fullhouse, ExampleHands.straight, ExampleHands.twopair, ExampleHands.pair, ExampleHands.highcard]
 
 for hand in testHands {
     print(hand.handName)

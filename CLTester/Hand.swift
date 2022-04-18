@@ -10,127 +10,226 @@ import Foundation
 class Hand {
     
     let handName: String
-    var besthand: [Card]
-    var besthandtype: HandRank
+    // The best hand from cards, determined using rankHand()
+    var bestHand: [Card]
+    var bestHandType: HandRank
+    // Array of cards in the hand
     var cards: [Card]
+    // The size of cards last time rankHands() was called
     var lastUpdate: Int
     
     init(_ cards: [Card]){
         self.cards = cards
-        self.besthand = []
-        self.besthandtype = .high
+        self.bestHand = []
+        self.bestHandType = .high
         self.lastUpdate = 0
         handName = ""
     }
     
     init(_ cards: [Card], handName: String){
         self.cards = cards
-        self.besthand = []
-        self.besthandtype = .high
+        self.bestHand = []
+        self.bestHandType = .high
         self.lastUpdate = 0
         self.handName = handName
     }
     
+    // Adds given card to hand
     func addcard(_ card: Card){
         cards.append(card)
     }
     
-    func sort(){
-        cards.sort()
-    }
-    
+    // Returns the best set of cards in given hand, and updates if there have been changes to hand
     func getBestHand() -> [Card] {
         if lastUpdate != cards.count {
             rankHand()
-            return besthand
+            return bestHand
         } else {
-            return besthand
+            return bestHand
         }
     }
     
+    // Returns the type of best hand, and updates if there are changes
     func getBestHandType() -> HandRank {
         if lastUpdate != cards.count {
             rankHand()
-            return besthandtype
+            return bestHandType
         } else {
-            return besthandtype
+            return bestHandType
         }
     }
     
+    // Updates besthandtype and besthand when called on whatever cards are in hand
     private func rankHand() {
+        let cards = cards.sorted { card1, card2 in
+            return card1.rank.rawValue > card2.rank.rawValue
+        }
+        // A dictionary of the ranks (two, nine, queen) available in cards, and their frequency
+        let rankCount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.rank, default: 0] += 1 }
+        // A dictionary of the suits (clubs, hearts, spades, diamonds) available in cards, and their frequency
+        let suitCount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.suit, default: 0] += 1 }
         
-        let rankcount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.rank, default: 0] += 1 }
-        let suitcount: Dictionary = cards.reduce(into: [:]) { counts, Card in counts[Card.suit, default: 0] += 1 }
-
-
+        
         var fs: Suit?
-        var besthand = [Card]()
-
-
-        suitcount.forEach({ (key: Suit, value: Int) in
+        var bestHand = [Card]()
+        
+        // FLUSH CHECKER
+        // Finds possible flushes by seeing if any 5 or more cards have the same suit,
+        // as two flushes is not possible
+        suitCount.forEach({ (key: Suit, value: Int) in
             fs = value > 4 ? key : fs
         })
-
-        if let flushsuit = fs {
+        
+        // Checks if there is an assign flushSuit
+        if let flushSuit = fs {
             
             
-            //Flush
-            var flushhand = cards.filter { card in
-                return card.suit == flushsuit
+            // FLUSH FILTER
+            var flushHand = cards.filter { card in
+                // Filters cards based on if they are the "flushsuit", so they're easier to work with
+                return card.suit == flushSuit
             }
             
-            flushhand.sort()
-            flushhand.reverse()
+            flushHand.sort()
+            flushHand.reverse()
             
-            //Checks for Ace 2 3 4 5 scenario
-            if [Card(.ace, flushsuit), Card(.two, flushsuit), Card(.three, flushsuit), Card(.four, flushsuit), Card(.five, flushsuit) ].allSatisfy(flushhand.contains) {
-                besthand = Array(flushhand.reversed()[0...3])
-                besthand = besthand.reversed()
-                besthand.append(flushhand[0])
-                besthandtype = .straightflush
+            // Checks for Ace 2 3 4 5 scenario. Brute force checks if all five hands are in hand
+            if [Card(.ace, flushSuit), Card(.two, flushSuit), Card(.three, flushSuit), Card(.four, flushSuit), Card(.five, flushSuit) ].allSatisfy(flushHand.contains) {
+                // reverses the array, then adds to best hand, in effect adding two, three, four, five
+                bestHand = Array(flushHand.reversed()[0...3])
+                // Flips to maintain standard high-card first order, then adds Ace
+                bestHand = bestHand.reversed()
+                bestHand.append(flushHand[0])
+                bestHandType = .straightflush
             }
             
-            //grabs the first flush in sorted order, checks if straight or royal
-        outerLoop: for i in 0..<flushhand.count - 4 {
-                if flushhand[i].rank.rawValue == flushhand[i+4].rank.rawValue + 4 {
-                    if flushhand[0].rank.rawValue == 14 {
-                        besthand = Array(flushhand[i...i+4])
-                        besthandtype = .royalflush
-                    } else {
-                        besthand = Array(flushhand[i...i+4])
-                        besthandtype = .straightflush
+            // STRAIGHT FLUSHES:
+            // Grabs the first flush in sorted order, checks if straight or royal, then steps through first 3 cards
+            if rankCount.count >= 5 {
+                for i in 0..<flushHand.count - 4 {
+                    // Checks if first 5 are sequential (Straight check)
+                    if flushHand[i].rank.rawValue == flushHand[i+4].rank.rawValue + 4 {
+                        // Checks if the highest rank card is ace, guarenteeing a royal flush
+                        if flushHand[0].rank.rawValue == 14 {
+                            // ROYAL FLUSH
+                            // Takes top 5 cards
+                            bestHand = Array(flushHand[i...i+4])
+                            bestHandType = .royalflush
+                        } else {
+                            // STRAIGHT FLUSH
+                            // Takes top 5 cards
+                            bestHand = Array(flushHand[i...i+4])
+                            bestHandType = .straightflush
+                        }
                     }
                 }
             }
             
-
-            // basic flush
-            if besthand.isEmpty {
-                besthand = Array(flushhand[0...4])
-                besthandtype = .flush
+            // FLUSH:
+            // Returns a basic flush if no other are available
+            // Flush is lower than quads and trips, but impossible if a flush is present
+            if bestHand.isEmpty {
+                // Pulls 5 highest rank cards
+                bestHand = Array(flushHand[0...4])
+                bestHandType = .flush
             }
             
         } else {
-            let rankcount = rankcount.sorted{ $0.value > $1.value }
-            switch rankcount.first?.value {
+            // This branch means no flush is present
+            
+            // ranksSorted is a sorted representation of rankCount
+            let ranksSorted = rankCount.sorted{ $0.value > $1.value }
+            
+            // The highest amount of cards of the same rank in ranksSorted
+            switch ranksSorted.first?.value {
+            //QUADS
             case 4:
-                besthand = cards.filter({ card in
-                    card.rank.rawValue == rankcount.first?.key.rawValue
+                // creates besthand from all cards that are equal to the detected quad
+                bestHand = cards.filter({ card in
+                    card.rank.rawValue == ranksSorted.first?.key.rawValue ?? 20
                 })
-                besthandtype = .quads
+                bestHandType = .quads
                 break
+            // TRIPS OR FULL HOUSE
             case 3:
-                besthand = cards.filter({ card in
-                    card.rank.rawValue == rankcount.first?.key.rawValue
+                // Creates a trips besthand
+                bestHand = cards.filter({ card in
+                    return card.rank.rawValue == ranksSorted.first?.key.rawValue
                 })
+                // FULLHOUSE
+                // Determines if there is an additional pair not equal to the first trip
+                if ranksSorted.dropFirst().first?.value ?? 0 >= 2 {
+                    // Adds the next set of matching cards to the besthand
+                    bestHand.append(contentsOf: (cards.filter({ card in
+                        // compares the second dictionary entries rank with the rank of the card, and the first hand in bestcard
+                        return ranksSorted.dropFirst().first?.key.rawValue == card.rank.rawValue && card.rank.rawValue != bestHand[0].rank.rawValue
+                    })))
+                    // If another trip was added, remove 1
+                    if bestHand.count >= 6 {
+                        bestHand.removeLast()
+                    }
+                    // re-sorts bestHand
+                    bestHand = bestHand.sorted(by: { card1, card2 in
+                        return card1.rank.rawValue > card2.rank.rawValue
+                    })
+                    bestHandType = .fullhouse
+                } else {
+                    // TRIPS
+                    bestHandType = .trips
+                }
+                break
+            // PAIR OR TWO PAIR
+            case 2:
+                // Best pair is assigned to besthand
+                bestHand = cards.filter({ card in
+                    return card.rank.rawValue == ranksSorted.first?.key.rawValue
+                })
+                // TWOPAIR
+                // Same as with fullhouse, checks for additional pair
+                if ranksSorted.dropFirst().first?.value ?? 0 == 2 {
+                    // Adds additional pair to hand
+                    bestHand.append(contentsOf: (cards.filter({ card in
+                        return ranksSorted.dropFirst().first?.key.rawValue == card.rank.rawValue && card.rank.rawValue != bestHand[0].rank.rawValue
+                    })))
+                    bestHandType = .twopair
+                } else {
+                    bestHandType = .pair
+                }
+                break
+            // HIGH CARD
             default:
-                print("oh god oh fuck")
+                // BestHand is highest ranked card
+                bestHand.append(cards.sorted(by: { card1, card2 in
+                    return card1.rank.rawValue > card2.rank.rawValue
+                }).first!)
+                bestHandType = .high
+                break
+            }
+            
+            // STRAIGHT
+            // Straight is only possible if there are at least 5 distinct cards (by rank)
+            if rankCount.count >= 5 {
+                
+                // As with straighthand, makes a sorted list of cards
+                var straightHand = cards
+                straightHand.sort { card1, card2 in
+                    return card1.rank.rawValue > card2.rank.rawValue
+                }
+                
+                // Similar method as straight flush checker, checks if any straights are possible
+                for i in 0..<cards.count - 4 {
+                    // Checks if first 5 are sequential (Straight check)
+                    if straightHand[i].rank.rawValue == straightHand[i+4].rank.rawValue + 4 {
+                            bestHand = Array(straightHand[i...i+4])
+                            bestHandType = .straight
+                        }
+                    }
             }
         }
-
         
+        // Updates the lastUpdate with current count
         lastUpdate = cards.count
-        self.besthand = besthand
+        self.bestHand = bestHand
     }
     
     
@@ -141,21 +240,3 @@ class Hand {
 enum HandRank: Int, CaseIterable {
     case royalflush = 0, straightflush, quads, fullhouse, flush, straight, trips, twopair, pair, high
 }
-
-
-/*
- is besthand.count == 5
-     royal flush = push
-     straightflush = highest top card
-     fullhouse = highest trip
-     flush = highest card downwards
-     straight = highest card
- */
-
-/*
- quads = highest card, then kicker
- trips = highest card, then kicker
- twopair = highest, then kicker
- pair = highest, then kicker
- high = kicker
- */
