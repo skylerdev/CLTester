@@ -59,8 +59,36 @@ class Hand {
         }
     }
     
+    func getHand() -> [Card] {
+        return Array(cards[0...1])
+    }
+    
+    public func isMyHandBetter(enemyHand: Hand) -> Int {
+        if enemyHand.bestHandType.rawValue != getBestHandType().rawValue {
+            return  getBestHandType().rawValue - enemyHand.bestHandType.rawValue
+        } else {
+            if getBestHand().count == 5 || getBestHandType() == .trips || getBestHandType() == .quads {
+                return getBestHand()[0].rank.rawValue - enemyHand.getBestHand()[0].rank.rawValue
+            } else {
+                if getBestHand()[0].rank.rawValue != enemyHand.getBestHand()[0].rank.rawValue {
+                    return getBestHand()[0].rank.rawValue - enemyHand.getBestHand()[0].rank.rawValue
+                } else {
+                    let kicker = Set(cards[0...1]).subtracting(bestHand)
+                    let enemyKicker = Set(enemyHand.cards[0...1]).subtracting(enemyHand.bestHand)
+                    
+                    if kicker.count < enemyKicker.count {
+                        return kicker.count > enemyKicker.count ? -1 : 1
+                    } else {
+                        return Int(kicker.first?.rank.rawValue ?? 20) < Int(enemyKicker.first?.rank.rawValue ?? 20) ? 1 : -1
+                    }
+                }
+            }
+        }
+    }
+    
     // Updates besthandtype and besthand when called on whatever cards are in hand
     private func rankHand() {
+        
         let cards = cards.sorted { card1, card2 in
             return card1.rank.rawValue > card2.rank.rawValue
         }
@@ -169,9 +197,9 @@ class Hand {
                         bestHand.removeLast()
                     }
                     // re-sorts bestHand
-                    bestHand = bestHand.sorted(by: { card1, card2 in
-                        return card1.rank.rawValue > card2.rank.rawValue
-                    })
+//                    bestHand = bestHand.sorted(by: { card1, card2 in
+//                        return card1.rank.rawValue > card2.rank.rawValue
+//                    })
                     bestHandType = .fullhouse
                 } else {
                     // TRIPS

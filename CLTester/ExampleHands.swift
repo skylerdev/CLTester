@@ -80,15 +80,24 @@ struct ExampleHands {
        Card(14, "C"),
        Card(14, "D"),
    ], handName: "Two Pair")
-    static let pair = Hand([
+    static let twopairAce = Hand([
        Card(9, "C"),
        Card(12, "H"),
-       Card(11, "C"),
-       Card(13, "S"),
-       Card(2, "D"),
+       Card(5, "C"),
+       Card(10, "S"),
+       Card(10, "D"),
        Card(14, "C"),
        Card(14, "D"),
-   ], handName: "pair")
+   ], handName: "Two Pair Ace")
+    static let pair = Hand([
+       Card(7, "C"),
+       Card(12, "H"),
+       Card(2, "C"),
+       Card(13, "S"),
+       Card(10, "D"),
+       Card(14, "C"),
+       Card(14, "D"),
+   ], handName: "Pair Ace")
     static let highcard = Hand([
        Card(9, "C"),
        Card(8, "H"),
@@ -98,4 +107,19 @@ struct ExampleHands {
        Card(2, "C"),
        Card(3, "D"),
    ], handName: "High Card")
+    
+    static let highcardNineHigh = Hand([
+       Card(9, "C"),
+       Card(8, "H"),
+   ], handName: "9 8")
+    
+    static let highcardTenHigh = Hand([
+       Card(10, "C"),
+       Card(8, "H"),
+   ], handName: "10 8")
+    
+    static let highcardTenHighPlusNine = Hand([
+       Card(10, "C"),
+       Card(9, "H"),
+   ], handName: "10 9")
 }
